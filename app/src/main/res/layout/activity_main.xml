@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.ambeyindustry.iss.MainActivity">
+    <Button
+            android:background="@color/green"
+            android:text="@string/iss_location"
+            android:textSize="20dp"
+            android:onClick="openMapActivity"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+    <Button
+            android:background="@color/yellow"
+            android:text="@string/iss_prediction"
+            android:textSize="20dp"
+            android:onClick="openPredictionsActivity"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+    <Button
+            android:background="@color/aqua"
+            android:text="@string/iss_people"
+            android:textSize="20dp"
+            android:onClick="openPeopleActivity"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+</LinearLayout>
