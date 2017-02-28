@@ -1,15 +1,23 @@
 package com.ambeyindustry.iss;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LocationFragment extends Fragment {
 
@@ -51,8 +59,9 @@ public class LocationFragment extends Fragment {
                 LatLng sydney = new LatLng(-34, 151);
                 googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
 
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(3).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                callAsynchronousTask();
             }
         });
 
@@ -81,5 +90,43 @@ public class LocationFragment extends Fragment {
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
+    }
+
+    private class MyTask extends AsyncTask<Void, Integer, IssLocation> {
+        @Override
+        protected IssLocation doInBackground(Void... voids) {
+            IssLocation location = HttpUtil.getIssLocation();
+            return location;
+        }
+
+        @Override
+        protected void onPostExecute(IssLocation location) {
+            LatLng sydney = new LatLng(location.getLat(), location.getLng());
+            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(3).build();
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
+    }
+
+    public void callAsynchronousTask() {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+        TimerTask doAsynchronousTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        try {
+                            MyTask performBackgroundTask = new MyTask();
+                            performBackgroundTask.execute();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        };
+        timer.schedule(doAsynchronousTask, 0, 5000);
     }
 }

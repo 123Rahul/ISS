@@ -113,6 +113,21 @@ public final class HttpUtil {
         return peoples;
     }
 
+    private static IssLocation getLocationFromJSON(String jsonString) {
+        if (TextUtils.isEmpty(jsonString)) {
+            return null;
+        }
+        IssLocation location;
+        try {
+            JSONObject mainObject = new JSONObject(jsonString);
+            location = new IssLocation(mainObject.getString("latitude"), mainObject.getString("longitude"));
+        } catch (Exception e) {
+            location = null;
+            e.printStackTrace();
+        }
+        return location;
+    }
+
     public static List<Predictions> getPredictionsFromServer(double lat, double lng) {
         URL url = getURL("http://api.open-notify.org/iss-pass.json?lat=" + Double.toString(lat) + "&lon=" + Double.toString(lng));
         String jsonString = "";
@@ -133,5 +148,16 @@ public final class HttpUtil {
             e.printStackTrace();
         }
         return getPeopleFromJSON(jsonString);
+    }
+
+    public static IssLocation getIssLocation() {
+        URL url = getURL("http://api.open-notify.org/iss-now.json");
+        String jsonString = "";
+        try {
+            jsonString = getDataFromServer(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return getLocationFromJSON(jsonString);
     }
 }
