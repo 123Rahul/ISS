@@ -120,7 +120,8 @@ public final class HttpUtil {
         IssLocation location;
         try {
             JSONObject mainObject = new JSONObject(jsonString);
-            location = new IssLocation(mainObject.getString("latitude"), mainObject.getString("longitude"));
+            JSONObject object = mainObject.getJSONObject("iss_position");
+            location = new IssLocation(object.getString("latitude"), object.getString("longitude"));
         } catch (Exception e) {
             location = null;
             e.printStackTrace();
@@ -129,7 +130,7 @@ public final class HttpUtil {
     }
 
     public static List<Predictions> getPredictionsFromServer(double lat, double lng) {
-        URL url = getURL("http://api.open-notify.org/iss-pass.json?lat=" + Double.toString(lat) + "&lon=" + Double.toString(lng));
+        URL url = getURL("http://api.open-notify.org/iss-pass.json?lat=" + Double.toString(38.0) + "&lon=" + Double.toString(23.0));
         String jsonString = "";
         try {
             jsonString = getDataFromServer(url);

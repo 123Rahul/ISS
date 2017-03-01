@@ -11,9 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.*;
 
 import java.util.List;
 import java.util.Timer;
@@ -24,6 +22,8 @@ public class LocationFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     MapView mMapView;
     private GoogleMap googleMap;
+    private MarkerOptions markerOps;
+    private Marker marker;
 
     public LocationFragment() {
     }
@@ -57,9 +57,13 @@ public class LocationFragment extends Fragment {
                 googleMap = gMap;
 
                 LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+                if (marker != null) {
+                    marker.remove();
+                }
+                markerOps = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.satellite));
+                marker = googleMap.addMarker(markerOps.position(sydney).title("Marker Title").snippet("Marker Description"));
 
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(3).build();
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(4).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 callAsynchronousTask();
             }
@@ -102,9 +106,13 @@ public class LocationFragment extends Fragment {
         @Override
         protected void onPostExecute(IssLocation location) {
             LatLng sydney = new LatLng(location.getLat(), location.getLng());
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+            if (marker != null) {
+                marker.remove();
+            }
+            markerOps = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.satellite));
+            marker = googleMap.addMarker(markerOps.position(sydney).title("Marker Title").snippet("Marker Description"));
 
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(3).build();
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(4).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
     }
