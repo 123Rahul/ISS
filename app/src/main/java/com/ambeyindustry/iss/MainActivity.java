@@ -15,14 +15,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void openMapActivity(View view) {
         Intent info = new Intent(this, InfoActivity.class);
+        info.putExtra("id","1");
         startActivity(info);
     }
 
     public void openPredictionsActivity(View view) {
-
+        Intent info = new Intent(this, InfoActivity.class);
+        info.putExtra("id","2");
+        startActivity(info);
     }
 
     public void openPeopleActivity(View view) {
-
+        Intent info = new Intent(this, InfoActivity.class);
+        info.putExtra("id","3");
+        startActivity(info);
     }
 }

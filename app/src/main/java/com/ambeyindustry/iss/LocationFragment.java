@@ -60,8 +60,8 @@ public class LocationFragment extends Fragment {
                 if (marker != null) {
                     marker.remove();
                 }
-                markerOps = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.satellite));
-                marker = googleMap.addMarker(markerOps.position(sydney).title("Marker Title").snippet("Marker Description"));
+                markerOps = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.stl));
+                marker = googleMap.addMarker(markerOps.position(sydney));
 
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(4).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -109,8 +109,8 @@ public class LocationFragment extends Fragment {
             if (marker != null) {
                 marker.remove();
             }
-            markerOps = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.satellite));
-            marker = googleMap.addMarker(markerOps.position(sydney).title("Marker Title").snippet("Marker Description"));
+            markerOps = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.stl));
+            marker = googleMap.addMarker(markerOps.position(sydney));
 
             CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(4).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
